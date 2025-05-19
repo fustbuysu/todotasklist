@@ -3,27 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <title>To do list</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .task-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .task-form input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .task-form button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .task-form button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .actions {
+            white-space: nowrap;
+        }
+        .actions a {
+            margin-right: 5px;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #4CAF50;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .checkbox:checked {
+            background-color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
-    <p>Список задач</p>
-    <form method="post" action="/add" >
-        <input type="text" name="TaskName" placeholder="Задача">
-        <input type="date" name="DueDate" placeholder="Виконати до">
-        <input type="submit" value="Додати Задачу">
-    </form>
-    <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>задачі</th>
-            <th>статус</th>
-        </tr>
-    {% for govno in TaskList: %}
-         <tr>
-           <td> {{ govno[0] }} </td>
-           <td> {{ govno[1] }} </td>
-           <td> {{ govno[2] }} </td>
-        </tr>
-    {% endfor %}
+    <h1>Список задач</h1>
+    <div class="task-form">
+        <form method="post" action="/add">
+            <input type="text" name="TaskName" placeholder="Новая задача" required>
+            <input type="date" name="DueDate" placeholder="Выполнить до">
+            <button type="submit">Добавить задачу</button>
+        </form>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Задача</th>
+                <th>Статус</th>
+                <th>Дата выполнения</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in TaskList %}
+            <tr>
+                <td>{{ task[0] }}</td>
+                <td>{{ task[1] }}</td>
+                <td>
+                    <input type="checkbox" class="checkbox" {% if task[2] %}checked{% endif %} 
+                           onchange="window.location.href='/toggle/{{ task[0] }}'">
+                </td>
+                <td>{{ task[3] if task[3] else '' }}</td>
+                <td class="actions">
+                    <a href="/edit/{{ task[0] }}" class="edit-btn">✏️</a>
+                    <a href="/delete/{{ task[0] }}" class="delete-btn" 
+                       onclick="return confirm('Вы уверены, что хотите удалить эту задачу?')">🗑️</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>
