@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>To do list</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Tasks</th>
+            <th>is done</th>
+        </tr>
+    {% for govno in TaskList: %}
+         <tr>
+           <td> {{ govno[0] }} </td>
+           <td> {{ govno[1] }} </td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
