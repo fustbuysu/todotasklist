@@ -5,15 +5,23 @@
     <title>To do list</title>
 </head>
 <body>
+    <p>Список задач</p>
+    <form method="post" action="/add" >
+        <input type="text" name="TaskName" placeholder="Задача">
+        <input type="date" name="DueDate" placeholder="Виконати до">
+        <input type="submit" value="Додати Задачу">
+    </form>
     <table border="1">
         <tr>
-            <th>Tasks</th>
-            <th>is done</th>
+            <th>Id</th>
+            <th>задачі</th>
+            <th>статус</th>
         </tr>
     {% for govno in TaskList: %}
          <tr>
            <td> {{ govno[0] }} </td>
            <td> {{ govno[1] }} </td>
+           <td> {{ govno[2] }} </td>
         </tr>
     {% endfor %}
     </table>
